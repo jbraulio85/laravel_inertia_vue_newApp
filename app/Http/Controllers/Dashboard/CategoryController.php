@@ -15,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(2);
+        $categories = Category::paginate(3);
         return inertia("Dashboard/Category/Index", compact('categories'));
     }
 
@@ -38,10 +38,7 @@ class CategoryController extends Controller
         // Crea la categoría
         Category::create($validated);
 
-        // Retorna un JSON con estado 200 y un mensaje
-        return response()->json([
-            'message' => 'Category added successfully!',
-        ], 200);
+        return to_route('category.index')->with('message','Its Done!');
     }
 
     /**
@@ -66,6 +63,7 @@ class CategoryController extends Controller
     public function update(Put $request, Category $category)
     {
         $category->update($request->validated());
+        return to_route('category.index')->with('message','Record Updated!');
     }
 
     /**
@@ -74,5 +72,6 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
+        return to_route('category.index')->with('message','Record Deleted Succesfully!');
     }
 }
